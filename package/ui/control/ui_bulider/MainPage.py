@@ -142,7 +142,7 @@ class Main_Page(object):
 
     def retranslateUi(self, Form:QtWidgets.QWidget):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Keyword Searching Tool"))
         self.Input_Ouput_Setting_Groupbox.setTitle(_translate("Form", "Input/Output Setting"))
         self.Batch_Input_Searching_Target_List_Path_lable.setText(_translate("Form", "Searching Target List Path:"))
         self.Batch_Input_Searching_Target_List_Path_pushButton.setText(_translate("Form", "Browse"))
