@@ -83,13 +83,3 @@ class data_writer(object):
 
 
 
-
-
-
-if __name__ == '__main__':
-    a = data_reader('C:\\Users\\DELL\\Desktop\\文件\\临时1\\新建文件夹 (2)\\input.xlsx')
-    a.try_to_read_excel_columns()
-    b = a.result_list[0]
-    print(b)
-
-
