@@ -41,13 +41,5 @@ def count(text,query_str_list):
 
     return result
 
-if __name__ == "__main__":
-    url = "https://projectmanager.com.tw/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86%e6%98%af%e4%bb%80%e9%ba%bc/"
-    a = "專案管理"
-    b = "知識技能"
-    c = "的"
-    d ="我"
-    e ="爱"
-    content = Crawler.get_page_content(url)
-    print(count(content,[a,b,c,d,e]))
+
 
