@@ -1,4 +1,3 @@
-
 from package.ui.control.custom_control.Dropable_QLineEdit import Dropable_QLineEdit
 from package.ui.control.custom_control.Browse_QPushButton import Browse_QPushButton
 from PyQt6 import QtCore, QtGui, QtWidgets
