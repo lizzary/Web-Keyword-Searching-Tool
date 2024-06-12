@@ -24,7 +24,7 @@ class data_reader(object):
         columns_list = df.columns.tolist()
         for column in columns_list:
             column_data = df[column].tolist()
-            data = [element for element in column_data if self.__is_nan(element) == False]
+            data = [element.lower() for element in column_data if self.__is_nan(element) == False]
             self.result_list.append(data)
 
         print('col',self.result_list)
