@@ -1,5 +1,3 @@
-import io
-
 import pandas as pd
 from package.data.Count import Count
 from package.data import Crawler
