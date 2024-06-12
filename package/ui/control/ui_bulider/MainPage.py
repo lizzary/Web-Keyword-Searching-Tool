@@ -37,6 +37,7 @@ class Main_Page(object):
         self.single_keyword_lineEdit = QtWidgets.QLineEdit(parent=self.Single_Input_Groupbox)
         self.single_keyword_lineEdit.setGeometry(QtCore.QRect(20, 80, 351, 25))
         self.single_keyword_lineEdit.setObjectName("single_keyword_lineEdit")
+        self.single_keyword_lineEdit.setPlaceholderText("Copy a COLUMN in Excel / Using ; between keywords")
 
         self.Single_Output_Path_lable = QtWidgets.QLabel(parent=self.Single_Input_Groupbox)
         self.Single_Output_Path_lable.setGeometry(QtCore.QRect(20, 110, 101, 19))
