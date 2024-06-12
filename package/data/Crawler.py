@@ -80,7 +80,7 @@ def get_page_content(url,filter_str_list = DEFAULT_STR_FILTER_LIST):
         temp = i.texts(True)
         if(temp != []):
             for word in temp:
-                content_str += word
+                content_str += word.lower()
                 if('FAQs' in word):
                     end_loop = True
 
