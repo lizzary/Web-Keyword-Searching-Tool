@@ -1,10 +1,8 @@
 from package.ui.control.ui_bulider.MainPage import Main_Page
 from PyQt6 import QtCore, QtGui, QtWidgets
 from package.ui.control import event_data
-from package.data import Crawler
-from package.data.Data import *
+from package.data.Data import data_reader,data_writer
 from package.data.Count import Count
-import numpy
 import re
 import os
 
