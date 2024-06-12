@@ -1,10 +1,8 @@
 from package.ui.control.ui_bulider.MainPage import Main_Page
 from PyQt6 import QtCore, QtGui, QtWidgets
 from package.ui.control import event_data
-from package.data import Crawler
-from package.data.Data import *
+from package.data.Data import data_reader,data_writer
 from package.data.Count import Count
-import numpy
 import re
 import os
 
@@ -93,7 +91,7 @@ class Slot(Main_Page):
         self.URL_lineEdit.clear()
         event_data.URL_LINEEDIT_CONTENT = ""
 
-        self.keyword_lineEdit.clear()
+        self.single_keyword_lineEdit.clear()
         event_data.SINGLE_INPUT_KEYWORD = ""
 
         self.Single_Output_Path_lineEdit.clear()
@@ -136,9 +134,7 @@ class Slot(Main_Page):
 
             count_obj_list = [Count(i[0], k) if i != [] else Count('', k) for i, k in zip(url_file_reader.result_list, keyword_file_reader.result_list)]
             print('keywords_list',keyword_file_reader.result_list)
-            #delete old result report
-            if os.path.exists(event_data.BATCH_OUTPUT_PATH_LINEEDIT_CONTENT+'/result.txt'):
-                os.remove(event_data.BATCH_OUTPUT_PATH_LINEEDIT_CONTENT+'/result.txt')
+
 
             self.searching_process.setValue(50)
 
@@ -147,13 +143,24 @@ class Slot(Main_Page):
 
             self.searching_process.setValue(80)
 
-            output_writer_list = [data_writer(event_data.BATCH_OUTPUT_PATH_LINEEDIT_CONTENT, count_obj) for count_obj in count_obj_list]
+            filepath = ''
+            for obj in count_obj_list:
+                if(obj.available_URL == True):
+                    filepath = data_writer(obj,event_data.BATCH_OUTPUT_PATH_LINEEDIT_CONTENT).filepath
+                    break
+
+            print('filepath is=',filepath)
+            output_writer_list = [data_writer(count_obj,filepath) for count_obj in count_obj_list]
+
+            # delete old result report
+            if os.path.exists(filepath):
+                os.remove(filepath)
 
             for obj in output_writer_list:
                 obj.write(self.System_Message_textBrowser.append)
 
                 try:
-                    f = open(obj.filepath, 'a', encoding='utf-8')
+                    f = open(filepath, 'a', encoding='utf-8')
 
                     def write_file(text):
                         if (text != ' '):
@@ -172,12 +179,13 @@ class Slot(Main_Page):
         if(self.Single_Input_Checkbox.checkState().value == 2):
             url = event_data.URL_LINEEDIT_CONTENT
             keywords_input = re.split('\n|;|；',event_data.SINGLE_INPUT_KEYWORD)
-            count = Count(url,keywords_input)
+            lower_case_keywords_input = [word.lower() for word in keywords_input]
+            count = Count(url,lower_case_keywords_input)
             count.count_keyword()
 
             self.searching_process.setValue(50)
 
-            output_writer = data_writer(event_data.SINGLE_OUTPUT_PATH_LINEEDIT_CONTENT,count)
+            output_writer = data_writer(count,event_data.SINGLE_OUTPUT_PATH_LINEEDIT_CONTENT)
 
             output_writer.write(self.System_Message_textBrowser.append)
 
@@ -188,6 +196,10 @@ class Slot(Main_Page):
 
 
             try:
+                # delete old result report
+                if os.path.exists(output_writer.filepath):
+                    os.remove(output_writer.filepath)
+
                 f = open(output_writer.filepath, 'a', encoding='utf-8')
 
                 def write_file(text):

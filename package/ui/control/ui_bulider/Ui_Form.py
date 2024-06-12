@@ -6,8 +6,6 @@
 #   ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ inheritance            inheritance     inheritance           #
 ############################################################################################
 
-from package.ui.control.ui_bulider.MainPage import Main_Page
-from package.ui.control.ui_bulider.Slot import Slot
 from package.ui.control.ui_bulider.Connect import Connect
 from PyQt6 import QtCore, QtGui, QtWidgets
 

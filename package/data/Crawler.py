@@ -77,22 +77,14 @@ def get_page_content(url,filter_str_list = DEFAULT_STR_FILTER_LIST):
     for i in main_page_element_list:
         if(end_loop == True):
             break
-        temp = i.texts(True)
+        temp:str = i.texts(True)
         if(temp != []):
             for word in temp:
-                content_str += word
+                content_str += word.lower()
                 if('FAQs' in word):
                     end_loop = True
 
     return content_str
-
-if __name__ == '__main__':
-
-    url = "https://projectmanager.com.tw/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86%e6%98%af%e4%bb%80%e9%ba%bc/"
-    url2 = "https://projectmanager.com.tw/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86/%e7%94%98%e7%89%b9%e5%9c%96/"
-    url3 = "https://projectmanager.com.tw/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86/%e5%b0%88%e6%a1%88%e6%98%af%e4%bb%80%e9%ba%bc/"
-    url4 = "https://projectmanager.com.tw/%e5%b0%88%e6%a1%88%e7%ae%a1%e7%90%86%e5%b7%a5%e5%85%b7/notion-%e6%95%99%e5%ad%b8/"
-    print(get_page_content(url4))
 
 
 

@@ -1,4 +1,3 @@
-
 from package.ui.control.custom_control.Dropable_QLineEdit import Dropable_QLineEdit
 from package.ui.control.custom_control.Browse_QPushButton import Browse_QPushButton
 from PyQt6 import QtCore, QtGui, QtWidgets
@@ -38,6 +37,7 @@ class Main_Page(object):
         self.single_keyword_lineEdit = QtWidgets.QLineEdit(parent=self.Single_Input_Groupbox)
         self.single_keyword_lineEdit.setGeometry(QtCore.QRect(20, 80, 351, 25))
         self.single_keyword_lineEdit.setObjectName("single_keyword_lineEdit")
+        self.single_keyword_lineEdit.setPlaceholderText("Copy a COLUMN in Excel / Using ; between keywords")
 
         self.Single_Output_Path_lable = QtWidgets.QLabel(parent=self.Single_Input_Groupbox)
         self.Single_Output_Path_lable.setGeometry(QtCore.QRect(20, 110, 101, 19))
@@ -142,7 +142,7 @@ class Main_Page(object):
 
     def retranslateUi(self, Form:QtWidgets.QWidget):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
+        Form.setWindowTitle(_translate("Form", "Keyword Searching Tool"))
         self.Input_Ouput_Setting_Groupbox.setTitle(_translate("Form", "Input/Output Setting"))
         self.Batch_Input_Searching_Target_List_Path_lable.setText(_translate("Form", "Searching Target List Path:"))
         self.Batch_Input_Searching_Target_List_Path_pushButton.setText(_translate("Form", "Browse"))

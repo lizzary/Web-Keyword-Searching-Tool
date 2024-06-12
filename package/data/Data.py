@@ -1,5 +1,3 @@
-import io
-
 import pandas as pd
 from package.data.Count import Count
 from package.data import Crawler
@@ -26,15 +24,15 @@ class data_reader(object):
         columns_list = df.columns.tolist()
         for column in columns_list:
             column_data = df[column].tolist()
-            data = [element for element in column_data if self.__is_nan(element) == False]
+            data = [element.lower() for element in column_data if self.__is_nan(element) == False]
             self.result_list.append(data)
 
         print('col',self.result_list)
         return True
 
 class data_writer(object):
-    def __init__(self,filepath:str,count_obj:Count):
-        self.filepath = filepath+'/result.txt'
+    def __init__(self,count_obj:Count,folderpath:str):
+        self.filepath = folderpath + '/result.txt'
         self.URL = count_obj.URL
         self.available_URL = count_obj.available_URL
         self.page_title = ''
@@ -43,6 +41,13 @@ class data_writer(object):
 
         if(self.available_URL == True):
             self.page_title = Crawler.get_page_title(self.URL)
+            self.filepath = folderpath + '/' + self.__replace_special_chars(self.page_title,' ') + '.txt'
+
+    def __replace_special_chars(self,text, replacement):
+        special_chars = ['\\', '/', ':', '*', '?', '"', '<', '>', '|']
+        for char in special_chars:
+            text = text.replace(char, replacement)
+        return text
 
     def write(self, write_fun):
 
@@ -81,15 +86,5 @@ class data_writer(object):
 
         return True
 
-
-
-
-
-
-if __name__ == '__main__':
-    a = data_reader('C:\\Users\\DELL\\Desktop\\文件\\临时1\\新建文件夹 (2)\\input.xlsx')
-    a.try_to_read_excel_columns()
-    b = a.result_list[0]
-    print(b)
 
 
