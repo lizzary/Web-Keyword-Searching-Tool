@@ -1,4 +1,5 @@
 from DrissionPage import  SessionPage
+from package.data.Query_word import Query_Word
 
 DEFAULT_STR_FILTER_LIST = ['nav','ez-toc']
 #print the html element list in the format:<html element>   <content> or pure content
@@ -9,13 +10,14 @@ DEFAULT_STR_FILTER_LIST = ['nav','ez-toc']
 def html_print(eles,detail_info = True):
     try:
         length = len(eles)
+        for i in range(length):
+            if (detail_info == True):
+                print(eles[i], end='  ')
+            print(eles[i].text)
     except:
         print('MESSAGE/html_print:cannot print target ele')
 
-    for i in range(length):
-        if(detail_info == True):
-            print(eles[i],end='  ')
-        print(eles[i].text)
+
 
 
 #delete the element in html element list which exist any words in str_list
@@ -63,6 +65,10 @@ def get_page_content(url,filter_str_list = DEFAULT_STR_FILTER_LIST):
         return False
 
     main_page = page.ele('@data-widget_type:theme-post-content')
+
+    if not main_page:
+        return False
+
     main_page_element_list = main_page.eles('@!id=__ELE_TO_ELES__')
     main_page_element_list = delete_eles_by_keyword(main_page_element_list,filter_str_list)
 
@@ -85,6 +91,41 @@ def get_page_content(url,filter_str_list = DEFAULT_STR_FILTER_LIST):
                     end_loop = True
 
     return content_str
+
+def get_internal_link(url):
+    page = SessionPage()
+
+    if(url == '' or page.get(url) == False):
+        print('MESSAGE/get_internal_link:internet connection timeout')
+        return [],[]
+
+    main_page = page.ele('@data-widget_type:theme-post-content')
+    try:
+        found_html_list_1 = main_page.eles('@@href:https://marketer.com.tw@@rel:noopener')
+        found_html_list_2 = main_page.eles('@@href:https://websitebuilder.com.tw@@rel:noopener')
+        found_html_list_3 = main_page.eles('@@href:https://projectmanager.com.tw@@rel:noopener')
+
+        found_html_list = found_html_list_1 + found_html_list_2 + found_html_list_3
+
+        internal_link_type_list:list[str] = []
+        keyword_list_with_internal_link:list[list[str]] = []
+
+        for i in found_html_list:
+            if ('go' in i.link):
+                continue
+            if (i.link not in internal_link_type_list):
+                internal_link_type_list.append(i.link)
+
+        for internal_link_type in internal_link_type_list:
+            keyword = []
+            for found_html in found_html_list:
+                if(internal_link_type == found_html.link):
+                    keyword.append(found_html.text)
+            keyword_list_with_internal_link.append(keyword)
+        return internal_link_type_list,keyword_list_with_internal_link
+
+    except Exception:
+        return [],[]
 
 
 

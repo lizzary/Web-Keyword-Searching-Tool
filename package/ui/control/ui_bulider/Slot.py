@@ -15,6 +15,7 @@ class Slot(Main_Page):
         #checked
         if(self.Batch_Input_Checkbox.checkState().value == 2):
             self.Batch_Input_Groupbox.setDisabled(False)
+            self.Batch_Input_Count_Internal_Link_checkBox.setDisabled(False)
             self.Single_Input_Checkbox.setChecked(False)
 
             self.Batch_Input_Searching_Target_List_Path_Input_lineEdit.setStyleSheet("color:black")
@@ -24,6 +25,7 @@ class Slot(Main_Page):
         #unchecked
         if(self.Batch_Input_Checkbox.checkState().value == 0):
             self.Batch_Input_Groupbox.setDisabled(True)
+            self.Batch_Input_Count_Internal_Link_checkBox.setDisabled(True)
 
             self.Batch_Input_Searching_Target_List_Path_Input_lineEdit.setStyleSheet("color:#A0A0A0")
             self.Batch_Input_Keyword_List_Input_Path_lineEdit.setStyleSheet("color:#A0A0A0")
@@ -33,19 +35,35 @@ class Slot(Main_Page):
         #checked
         if(self.Single_Input_Checkbox.checkState().value == 2):
             self.Single_Input_Groupbox.setDisabled(False)
+            self.Single_Input_Count_Internal_Link_checkBox.setDisabled(False)
             self.Batch_Input_Checkbox.setChecked(False)
 
             self.URL_lineEdit.setStyleSheet("color:black")
-            self.single_keyword_lineEdit.setStyleSheet("color:black")
+            self.Single_keyword_lineEdit.setStyleSheet("color:black")
             self.Single_Output_Path_lineEdit.setStyleSheet("color:black")
 
         #unchecked
         if(self.Single_Input_Checkbox.checkState().value == 0):
             self.Single_Input_Groupbox.setDisabled(True)
+            self.Single_Input_Count_Internal_Link_checkBox.setDisabled(True)
 
             self.URL_lineEdit.setStyleSheet("color:#A0A0A0")
-            self.single_keyword_lineEdit.setStyleSheet("color:#A0A0A0")
+            self.Single_keyword_lineEdit.setStyleSheet("color:#A0A0A0")
             self.Single_Output_Path_lineEdit.setStyleSheet("color:#A0A0A0")
+
+    def single_input_count_internal_url_checkbox_state(self):
+        if(self.Single_Input_Count_Internal_Link_checkBox.checkState().value == 2):
+            event_data.COUNT_INTERNAL_LINK = True
+
+        if(self.Single_Input_Count_Internal_Link_checkBox.checkState().value == 0):
+            event_data.COUNT_INTERNAL_LINK = False
+
+    def batch_input_count_internal_url_checkbox_state(self):
+        if (self.Batch_Input_Count_Internal_Link_checkBox.checkState().value == 2):
+            event_data.COUNT_INTERNAL_LINK = True
+
+        if (self.Batch_Input_Count_Internal_Link_checkBox.checkState().value == 0):
+            event_data.COUNT_INTERNAL_LINK = False
 
     def single_url_lineEdit_event(self):
         event_data.URL_LINEEDIT_CONTENT = self.URL_lineEdit.text()
@@ -53,7 +71,7 @@ class Slot(Main_Page):
         print(event_data.URL_LINEEDIT_CONTENT)
 
     def single_keyword_lineEdit_event(self):
-        event_data.SINGLE_INPUT_KEYWORD = self.single_keyword_lineEdit.text()
+        event_data.SINGLE_INPUT_KEYWORD = self.Single_keyword_lineEdit.text()
     def single_output_path_lineEdit_event(self):
         event_data.SINGLE_OUTPUT_PATH_LINEEDIT_CONTENT = self.Single_Output_Path_lineEdit.text()
         self.Single_Output_Path_lineEdit.setStyleSheet("color:black")
@@ -91,7 +109,7 @@ class Slot(Main_Page):
         self.URL_lineEdit.clear()
         event_data.URL_LINEEDIT_CONTENT = ""
 
-        self.single_keyword_lineEdit.clear()
+        self.Single_keyword_lineEdit.clear()
         event_data.SINGLE_INPUT_KEYWORD = ""
 
         self.Single_Output_Path_lineEdit.clear()
@@ -103,7 +121,7 @@ class Slot(Main_Page):
         self.Batch_Input_Keyword_List_Input_Path_lineEdit.clear()
         event_data.BATCH_INPUT_KEYWORD_LIST_PATH_LINEEDIT_CONTENT = ""
 
-        self.Batch_Output_Path_lable.clear()
+        self.Batch_Output_Path_lineEdit.clear()
         event_data.BATCH_OUTPUT_PATH_LINEEDIT_CONTENT = ""
 
     def cancel(self):
@@ -133,13 +151,15 @@ class Slot(Main_Page):
             self.searching_process.setValue(20)
 
             count_obj_list = [Count(i[0], k) if i != [] else Count('', k) for i, k in zip(url_file_reader.result_list, keyword_file_reader.result_list)]
-            print('keywords_list',keyword_file_reader.result_list)
 
 
             self.searching_process.setValue(50)
 
             for obj in count_obj_list:
                 obj.count_keyword()
+                if(event_data.COUNT_INTERNAL_LINK == True):
+                    obj.count_internal_link()
+
 
             self.searching_process.setValue(80)
 
@@ -149,7 +169,6 @@ class Slot(Main_Page):
                     filepath = data_writer(obj,event_data.BATCH_OUTPUT_PATH_LINEEDIT_CONTENT).filepath
                     break
 
-            print('filepath is=',filepath)
             output_writer_list = [data_writer(count_obj,filepath) for count_obj in count_obj_list]
 
             # delete old result report
@@ -181,7 +200,10 @@ class Slot(Main_Page):
             keywords_input = re.split('\n|;|；',event_data.SINGLE_INPUT_KEYWORD)
             lower_case_keywords_input = [word.lower() for word in keywords_input]
             count = Count(url,lower_case_keywords_input)
+
             count.count_keyword()
+            if(event_data.COUNT_INTERNAL_LINK == True):
+                count.count_internal_link()
 
             self.searching_process.setValue(50)
 
@@ -191,7 +213,7 @@ class Slot(Main_Page):
 
             self.searching_process.setValue(100)
 
-            if(output_writer.filepath == ''):
+            if(event_data.SINGLE_OUTPUT_PATH_LINEEDIT_CONTENT == ''):
                 return
 
 

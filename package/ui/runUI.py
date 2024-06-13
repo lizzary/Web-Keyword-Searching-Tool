@@ -13,9 +13,4 @@ def run():
     myWidget = Widget()
     myWidget.show()
     sys.exit(app.exec())
-#
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    myWidget = Widget()
-    myWidget.show()
-    sys.exit(app.exec())
+

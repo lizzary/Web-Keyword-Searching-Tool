@@ -1,26 +1,23 @@
-from package.data import Crawler
 class Query_Word(object):
     def __init__(self,query_str):
-        self.__query_str = query_str
-        self.__matched_digit = 0
-        self.__matched_num = 0
+        self.query_str = query_str
+        self.matched_digit = 0
+        self.matched_num = 0
 
-    def get_matched_num(self):
-        return self.__matched_num
     def check_digit(self,check):
-        if self.__query_str == '':
+        if self.query_str == '':
             return
-        if self.__query_str[self.__matched_digit] != check :
-            self.__matched_digit = 0
+        if self.query_str[self.matched_digit] != check :
+            self.matched_digit = 0
             return
 
 
-        if self.__query_str[self.__matched_digit] == check :
-            self.__matched_digit += 1
+        if self.query_str[self.matched_digit] == check :
+            self.matched_digit += 1
 
-            if self.__matched_digit == len(self.__query_str) :
-                self.__matched_num += 1
-                self.__matched_digit = 0
+            if self.matched_digit == len(self.query_str) :
+                self.matched_num += 1
+                self.matched_digit = 0
 
 #count the frequency of the words in query_str_list
 #input parameter:
@@ -37,7 +34,7 @@ def count(text,query_str_list):
 
     result = []
     for i in range(length):
-        result.append(query_obj[i].get_matched_num())
+        result.append(query_obj[i].matched_num)
 
     return result
 
