@@ -82,18 +82,19 @@ class data_writer(object):
                 write_fun(str(self.keywords_list[i])+' -> '+appear_num)
             write_fun(' ')
 
-        if( event_data.COUNT_INTERNAL_LINK == True):
+        if (event_data.COUNT_INTERNAL_LINK == True):
             write_fun('內部鏈接統計: ')
-            if(self.internal_link_words_list == [] or self.internal_link_url_list == []):
+            if (self.internal_link_words_list == [] or self.internal_link_url_list == []):
                 write_fun('#EMPTY INTERNAL LINK')
                 write_fun(' ')
             else:
                 for i in range(len(self.internal_link_url_list)):
                     write_fun('內部鏈接: ' + self.internal_link_url_list[i])
-                    write_fun('被引總數: ' + str( len(self.internal_link_words_list[i]) ) )
+                    write_fun('被引總數: ' + str(len(self.internal_link_words_list[i])))
                     write_fun('引用條目: ' + '1.' + self.internal_link_words_list[i][0])
-                    for j in range(1,len(self.internal_link_words_list[i])):
-                        write_fun('                '+str(j+1) +'.' + self.internal_link_words_list[i][j])
+                    for j in range(1, len(self.internal_link_words_list[i])):
+                        #write_fun('　　　　  ' + str(j + 1) + '.' + self.internal_link_words_list[i][j])
+                        write_fun('\u3000'+'\u3000'+'\u3000'+'\u3000'+'  ' + str(j + 1) + '.' + self.internal_link_words_list[i][j])
                     write_fun(' ')
 
 

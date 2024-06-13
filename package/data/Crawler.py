@@ -2,24 +2,6 @@ from DrissionPage import  SessionPage
 from package.data.Query_word import Query_Word
 
 DEFAULT_STR_FILTER_LIST = ['nav','ez-toc']
-#print the html element list in the format:<html element>   <content> or pure content
-#input parameter:
-#eles:<class 'DrissionPage._elements.session_element.SessionElement'> type
-#detail_info(defalut True):when false->only print the content
-#return: no return
-def html_print(eles,detail_info = True):
-    try:
-        length = len(eles)
-        for i in range(length):
-            if (detail_info == True):
-                print(eles[i], end='  ')
-            print(eles[i].text)
-    except:
-        print('MESSAGE/html_print:cannot print target ele')
-
-
-
-
 #delete the element in html element list which exist any words in str_list
 #input parameter:
 #eles:<class 'DrissionPage._elements.session_element.SessionElement'> type
