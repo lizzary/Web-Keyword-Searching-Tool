@@ -14,7 +14,7 @@ class data_reader(object):
 
     def try_to_read_excel_columns(self):
         try:
-            df = pd.read_excel(self.filepath, header=None,dtype=str)  # 设置header参数为None，使用默认的列索引作为列名称
+            df = pd.read_excel(self.filepath, header=None,dtype=str)
         except FileNotFoundError:
             return False
 
